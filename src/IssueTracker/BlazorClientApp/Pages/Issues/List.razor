@@ -1,31 +1,35 @@
 ﻿@page "/Issues"
 @page "/Zgloszenia"
 @inject NavigationManager navigationManager
+@inject HttpClient client
 
 @using Domain.Models
 
 <h3>Issues</h3>
 
-<ul>
-    @foreach(var issue in issues)
-    {
-        <li><strong>@issue.Title</strong> @issue.Description</li>
-    }        
-</ul>
+@if (issues is null)
+{
+    <em>Loading issues...</em>
+}
+else
+{
+    <ul>
+        @foreach (var issue in issues)
+        {
+            <li><strong>@issue.Title</strong> @issue.Description</li>
+        }
+    </ul>
+}
 
 @code {
-    private ICollection<Issue> issues;
+    private IEnumerable<Issue> issues;
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
         navigationManager.LocationChanged += HandleLocationChanged;
 
-        issues = new List<Issue>
-        {
-            new Issue { Id = 1, Title = "Issue 1", Description = "Lorem ipsum 1" },
-            new Issue { Id = 2, Title = "Issue 2", Description = "Lorem ipsum 2" },
-            new Issue { Id = 3, Title = "Issue 3", Description = "Lorem ipsum 3" },
-        };
+        // TODO: get all issues
+        issues = await client.GetFromJsonAsync<IEnumerable<Issue>>("api/issues");
     }
 
     private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
