@@ -2,6 +2,7 @@
 @page "/Zgloszenia"
 @inject NavigationManager navigationManager
 @inject IssueApiService Api
+@implements IDisposable
 
 <h3>Issues</h3>
 
@@ -34,6 +35,15 @@ else
         Console.WriteLine(e.Location);
     }
 
+    protected virtual void Dispose(bool disposing)
+    {
+        navigationManager.LocationChanged -= HandleLocationChanged;
+    }
+
+    public void Dispose()
+    {
+        Dispose(true); GC.SuppressFinalize(this);
+    }
 
 
 }
