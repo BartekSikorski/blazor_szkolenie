@@ -1,0 +1,13 @@
+﻿@{
+    var CurrentDirectory = Environment.OSVersion;
+}
+
+
+<footer>
+    Copyright @CopyrightYear CurrentDirectory: @CurrentDirectory
+</footer>
+
+@code {
+    private int CopyrightYear = DateTime.Today.Year;
+      
+}
