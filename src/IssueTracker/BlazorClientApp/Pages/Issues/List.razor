@@ -1,4 +1,7 @@
 ﻿@page "/Issues"
+@page "/Zgloszenia"
+@inject NavigationManager navigationManager
+
 @using Domain.Models
 
 <h3>Issues</h3>
@@ -15,14 +18,19 @@
 
     protected override void OnInitialized()
     {
+        navigationManager.LocationChanged += HandleLocationChanged;
+
         issues = new List<Issue>
         {
             new Issue { Id = 1, Title = "Issue 1", Description = "Lorem ipsum 1" },
             new Issue { Id = 2, Title = "Issue 2", Description = "Lorem ipsum 2" },
             new Issue { Id = 3, Title = "Issue 3", Description = "Lorem ipsum 3" },
         };
+    }
 
-
+    private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        Console.WriteLine(e.Location);
     }
 
 
