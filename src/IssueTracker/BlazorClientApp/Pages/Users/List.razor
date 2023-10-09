@@ -2,3 +2,16 @@
 
 <h3>Hello Users!</h3>
 
+@if (users is null)
+{
+    <em>Loading users...</em>
+}
+else
+{
+    <ul>
+        @foreach (var user in users)
+        {
+            <li>@user.FirstName <strong>@user.LastName</strong></li>
+        }
+    </ul>
+}
