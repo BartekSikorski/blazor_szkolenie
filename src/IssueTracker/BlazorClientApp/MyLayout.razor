@@ -1,21 +1,8 @@
 ﻿@inherits LayoutComponentBase
+@using BlazorClientApp.Shared
 
 <header>
-    <nav>
-        <ul>
-            <li>
-                <a href="/dashboard">Dashboard</a>
-            </li>
-
-            <li>
-                <a href="/users">Users</a>
-            </li>
-
-            <li>
-                <a href="/issues">Issues</a>
-            </li>
-        </ul>
-    </nav>
+   <NavMenu />
 </header>
 
 <main>
@@ -23,5 +10,5 @@
 </main>
 
 <footer>
-    <h2>Footer</h2>
+    <NavMenu />
 </footer>
