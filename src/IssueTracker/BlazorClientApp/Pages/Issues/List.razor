@@ -1,9 +1,7 @@
 ﻿@page "/Issues"
 @page "/Zgloszenia"
 @inject NavigationManager navigationManager
-@inject HttpClient client
-
-@using Domain.Models
+@inject IssueApiService Api
 
 <h3>Issues</h3>
 
@@ -28,8 +26,7 @@ else
     {
         navigationManager.LocationChanged += HandleLocationChanged;
 
-        // TODO: get all issues
-        issues = await client.GetFromJsonAsync<IEnumerable<Issue>>("api/issues");
+        issues = await Api.GetAllAsync();
     }
 
     private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
