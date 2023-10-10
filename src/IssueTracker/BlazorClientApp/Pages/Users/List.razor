@@ -27,15 +27,15 @@ else
             <td>@user.Email</td>
         </RowTemplate>
     </EntityTableTemplate>
-
-   
 }
 
 @code {
 
     private async Task Search(string searchText)
     {
-        
+        var searchCriteria = new UserSearchCriteria { FirstName = searchText };
+
+        users = await Api.GetBySearchCriteriaAsync(searchCriteria);
     }
 
 }

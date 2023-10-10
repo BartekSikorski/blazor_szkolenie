@@ -1,6 +1,7 @@
 using Domain.Abstractions;
 using Domain.Models;
 using Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,11 @@ app.MapGet("/", () => "Hello World!");
 app.MapGet("/api/issues", async (IIssueRepository repository) => await repository.GetAllAsync());
 app.MapGet("/api/issues/{id:int}", async (IIssueRepository repository, int id) => await repository.GetById(id));
 
-app.MapGet("/api/users", async(IUserRepository repository ) => await repository.GetAllAsync());
+app.MapGet("/api/users", async (IUserRepository repository) => await repository.GetAllAsync());
+
+// GET /api/users/search?name=Bob
+// app.MapGet("/api/users/search", async(IUserRepository repository, string name) => await repository.GetByNameAsync(name));
+
+app.MapGet("/api/users/search", async (IUserRepository repository, [AsParameters] UserSearchCriteria criteria) => await repository.GetBySearchCriteriaAsync(criteria));
 
 app.Run();

@@ -6,7 +6,7 @@ namespace Infrastructure;
 public class FakeEntityRepository<T> : IEntityRepository<T>
     where T : BaseEntity
 {
-    private readonly IDictionary<int, T> _entities;
+    protected readonly IDictionary<int, T> _entities;
 
     public FakeEntityRepository(IEnumerable<T> entities)
     {
