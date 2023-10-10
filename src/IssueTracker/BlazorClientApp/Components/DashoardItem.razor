@@ -1,0 +1,17 @@
+﻿<div>
+    <div class="col s3 m3">
+        <div style="height:130px;" class="card-panel @CardColour">
+            <span class="white-text">
+                @ChildContent
+            </span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public string CardColour { get; set; }
+}

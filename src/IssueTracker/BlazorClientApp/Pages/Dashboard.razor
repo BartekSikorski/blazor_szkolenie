@@ -1,0 +1,33 @@
+﻿@page "/Dashboard"
+
+<div class="row">
+    <DashoardItem CardColour="orange">
+        <div>23</div>
+        <div><span style="margin-right:50px">Open Issues</span> <i class="material-icons">add</i></div>
+    </DashoardItem>
+
+    <DashoardItem CardColour="green">
+        <div>1</div>
+        <div><span style="margin-right:50px">Closed Issues</span>  <i class="material-icons">add</i></div>
+    </DashoardItem>
+
+    <DashoardItem CardColour="purple">
+        <div>3</div>
+        <div><span style="margin-right:50px">Users</span>  <i class="material-icons">add</i></div>
+    </DashoardItem>
+
+    <DashoardItem CardColour="blue">
+        <div>@progress%</div>
+        <div><span style="margin-right:50px">Progress</span>  <i class="material-icons">add</i></div>
+        <div>
+            <div class="progress">
+                <div class="determinate" style="width: @progress%"></div>
+            </div>
+        </div>
+    </DashoardItem>
+</div>
+
+@code {
+    private int progress = 45;
+
+}
