@@ -1,3 +1,18 @@
 ﻿@page "/"
 
 <h1>Hello, world!</h1>
+
+<p>@counter</p>
+
+<a class="waves-effect waves-light btn" @onclick="Increment">Increment</a>
+
+@code {
+
+    private int counter;
+
+    private void Increment()
+    {
+        counter++;
+    }
+}
+
