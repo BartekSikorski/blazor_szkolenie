@@ -1,3 +1,4 @@
+using Api.Hubs;
 using Domain.Abstractions;
 using Domain.Models;
 using Infrastructure;
@@ -25,8 +26,12 @@ builder.Services.AddCors(options =>
         // policy.AllowAnyOrigin();
         policy.WithOrigins("https://localhost:7085", "http://localhost:5281");
         policy.WithMethods("GET");
+        policy.AllowAnyHeader();
     });
 });
+
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -46,5 +51,7 @@ app.MapGet("/api/users", async (IUserRepository repository) => await repository.
 // app.MapGet("/api/users/search", async(IUserRepository repository, string name) => await repository.GetByNameAsync(name));
 
 app.MapGet("/api/users/search", async (IUserRepository repository, [AsParameters] UserSearchCriteria criteria) => await repository.GetBySearchCriteriaAsync(criteria));
+
+app.MapHub<IssuesHub>("signalr/issues");
 
 app.Run();

@@ -1,8 +1,12 @@
 ﻿@page "/Issues"
 @page "/Zgloszenia"
+@using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager navigationManager
 @inject IssueApiService Api
-@implements IDisposable
+@*  PM> Install-Package Microsoft.AspNetCore.SignalR.Client *@
+@inject HubConnection connection        
+
+@implements IAsyncDisposable
 
 <h3>Issues</h3>
 
@@ -29,6 +33,21 @@ else
 
         await Task.Delay(TimeSpan.FromSeconds(3));
         issues = await Api.GetAllAsync();
+
+
+        connection.On<Issue>("IssueAdded", issue =>
+        {
+            var u = issues.ToList();
+
+            u.Add(issue);
+
+            issues = u.AsEnumerable();
+
+            StateHasChanged();
+
+        });
+
+        await connection.StartAsync();
     }
 
     private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
@@ -36,14 +55,17 @@ else
         Console.WriteLine(e.Location);
     }
 
-    protected virtual void Dispose(bool disposing)
+    protected virtual async ValueTask DisposeAsync(bool disposing)
     {
         navigationManager.LocationChanged -= HandleLocationChanged;
+
+        await connection.StopAsync();
+
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        Dispose(true); GC.SuppressFinalize(this);
+        await DisposeAsync(true); GC.SuppressFinalize(this);
     }
 
 
