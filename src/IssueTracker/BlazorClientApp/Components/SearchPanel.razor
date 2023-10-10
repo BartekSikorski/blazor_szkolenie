@@ -1,0 +1,19 @@
+﻿
+<div>
+    <input type="search" @bind="filter" @bind:after="Search" />
+</div>
+
+
+@code {
+
+    private string filter { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnSearch { get; set;  }
+
+    private async Task Search()
+    {
+        await OnSearch.InvokeAsync(filter);
+    }
+
+}

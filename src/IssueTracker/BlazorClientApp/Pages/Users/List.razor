@@ -4,7 +4,7 @@
 
 
 <div>
-    <input type="search" @bind="filter" @bind:after="Search" />
+    <SearchPanel OnSearch="Search" />
 </div>
 
 @if (users is null)
@@ -32,9 +32,8 @@ else
 }
 
 @code {
-    private string filter { get; set; } = "John";
 
-    private void Search()
+    private async Task Search(string searchText)
     {
         
     }
