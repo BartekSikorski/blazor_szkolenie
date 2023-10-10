@@ -2,7 +2,7 @@
 
 <div class="row">
     <DashoardItem CardColour="orange" Value="23">
-        <Standard Title="Open Issues" Icon="add" />        
+        <Standard Title="Open Issues" Icon="add" />
     </DashoardItem>
 
     <DashoardItem CardColour="green" Value="1">
@@ -10,16 +10,25 @@
     </DashoardItem>
 
     <DashoardItem CardColour="purple" Value="3">
-        <Standard Title="Users" Icon="add" />        
+        <Standard Title="Users" Icon="add" />
     </DashoardItem>
 
-    <DashoardItem CardColour="blue" Value="progress">
-        <Standard Title="Progress" Icon="add" />
-        <Progress Value="@progress"/>
+    <DashoardItem CardColour="blue" Value="@progress">
+        <CascadingValue Value="@MyIcon" Name="Icon">
+            <CascadingValue Value="@MyTitle" Name="Title">
+                <CascadingValue Value="@progress">
+                    <StandardWithProgress />
+                </CascadingValue>
+            </CascadingValue>
+        </CascadingValue>
     </DashoardItem>
 </div>
 
 @code {
     private int progress = 45;
+
+    private string MyTitle = "Progress Tasks";
+    private string MyIcon = "add";
+
 
 }

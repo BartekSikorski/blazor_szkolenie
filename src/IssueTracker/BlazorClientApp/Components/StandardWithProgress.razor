@@ -1,0 +1,22 @@
+﻿@{
+    var x = 10;
+
+    string DoWork()
+    {
+        return "Hello";
+    }
+}
+
+
+<Standard Title="@Title" Icon="@Icon" />
+
+<Progress />
+
+@code {
+    
+    [CascadingParameter(Name ="Title")]
+    public string Title { get; set; }
+
+    [CascadingParameter(Name = "Icon")]
+    public string Icon { get; set; }
+}
