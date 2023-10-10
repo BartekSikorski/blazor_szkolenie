@@ -8,9 +8,7 @@
 
 @if (issues is null)
 {
-    <ProgressBar>
-        <em>Loading issues...</em>
-    </ProgressBar>
+    <ProgressBar />    
 }
 else
 {
@@ -29,6 +27,7 @@ else
     {
         navigationManager.LocationChanged += HandleLocationChanged;
 
+        await Task.Delay(TimeSpan.FromSeconds(3));
         issues = await Api.GetAllAsync();
     }
 
