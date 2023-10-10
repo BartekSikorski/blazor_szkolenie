@@ -4,7 +4,7 @@
 
 
 <div>
-    <input type="search" @bind-value="filter" />
+    <input type="search" @bind="filter" @bind:after="Search" />
 </div>
 
 @if (users is null)
@@ -33,5 +33,10 @@ else
 
 @code {
     private string filter { get; set; } = "John";
+
+    private void Search()
+    {
+        
+    }
 
 }
