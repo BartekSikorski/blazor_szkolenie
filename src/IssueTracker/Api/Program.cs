@@ -12,7 +12,7 @@ builder.Services.AddSingleton<IEnumerable<User>>(_ =>
 {    
     UserFaker faker = new UserFaker();
 
-    var users = faker.Generate(100);
+    var users = faker.Generate(5);
 
     return users;
 });
