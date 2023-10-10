@@ -1,0 +1,30 @@
+﻿@typeparam TEntity where TEntity : BaseEntity
+
+<table class="striped">
+    <thead>
+        <tr>
+            @HeaderTemplate
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var entity in Entities)
+        {
+            <tr>
+                @RowTemplate(entity)
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    [Parameter]
+    public IEnumerable<TEntity> Entities { get; set; }
+
+    [Parameter]
+    public RenderFragment HeaderTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment<TEntity> RowTemplate { get; set; }
+}
