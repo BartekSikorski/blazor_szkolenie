@@ -1,6 +1,7 @@
 using Domain.Abstractions;
 using Domain.Models;
 using Infrastructure;
+using Infrastructure.Fakers;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,13 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IIssueRepository, FakeIssueRepository>();
 builder.Services.AddSingleton<IUserRepository, FakeUserRepository>();
 builder.Services.AddSingleton<IEnumerable<User>>(_ =>
-{
-    return new List<User>
-    {
-        new User { Id = 1, FirstName = "John", LastName = "Smith"},
-        new User { Id = 2, FirstName = "Bob", LastName = "Smith"},
-        new User { Id = 3, FirstName = "Ann", LastName = "Smith"},
-    };
+{    
+    UserFaker faker = new UserFaker();
+
+    var users = faker.Generate(100);
+
+    return users;
 });
 
 // Rejestracja reguly CORS
