@@ -2,6 +2,11 @@
 
 <h3>Hello Users!</h3>
 
+
+<div>
+    <input type="search" @bind-value="filter" />
+</div>
+
 @if (users is null)
 {
     <ProgressBar>
@@ -24,4 +29,9 @@ else
     </EntityTableTemplate>
 
    
+}
+
+@code {
+    private string filter { get; set; } = "John";
+
 }
