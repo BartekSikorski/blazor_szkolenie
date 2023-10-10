@@ -1,9 +1,7 @@
 ﻿<table class="striped">
     <thead>
         <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
+            @HeaderTemplate
         </tr>
     </thead>
 
@@ -11,9 +9,7 @@
         @foreach (var user in Users)
         {
             <tr>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>@user.Email</td>
+               @RowTemplate(user)
             </tr>
         }
     </tbody>
@@ -23,4 +19,10 @@
 
     [Parameter]
     public IEnumerable<User> Users { get; set; }
+
+    [Parameter]
+    public RenderFragment HeaderTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment<User> RowTemplate { get; set; }
 }
