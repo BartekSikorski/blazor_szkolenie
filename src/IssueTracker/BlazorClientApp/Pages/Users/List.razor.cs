@@ -18,6 +18,7 @@ public partial class List : IDisposable
 
     protected override async Task OnInitializedAsync()
     {
+        await Task.Delay(TimeSpan.FromSeconds(5));
         users = await Api.GetAllAsync();
     }
 }
