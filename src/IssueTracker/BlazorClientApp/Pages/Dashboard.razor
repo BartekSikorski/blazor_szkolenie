@@ -1,29 +1,21 @@
 ﻿@page "/Dashboard"
 
 <div class="row">
-    <DashoardItem CardColour="orange">
-        <div>23</div>
-        <div><span style="margin-right:50px">Open Issues</span> <i class="material-icons">add</i></div>
+    <DashoardItem CardColour="orange" Value="23">
+        <Standard Title="Open Issues" Icon="add" />        
     </DashoardItem>
 
-    <DashoardItem CardColour="green">
-        <div>1</div>
-        <div><span style="margin-right:50px">Closed Issues</span>  <i class="material-icons">add</i></div>
+    <DashoardItem CardColour="green" Value="1">
+        <Standard Title="Closed Issues" Icon="add" />
     </DashoardItem>
 
-    <DashoardItem CardColour="purple">
-        <div>3</div>
-        <div><span style="margin-right:50px">Users</span>  <i class="material-icons">add</i></div>
+    <DashoardItem CardColour="purple" Value="3">
+        <Standard Title="Users" Icon="add" />        
     </DashoardItem>
 
-    <DashoardItem CardColour="blue">
-        <div>@progress%</div>
-        <div><span style="margin-right:50px">Progress</span>  <i class="material-icons">add</i></div>
-        <div>
-            <div class="progress">
-                <div class="determinate" style="width: @progress%"></div>
-            </div>
-        </div>
+    <DashoardItem CardColour="blue" Value="progress">
+        <Standard Title="Progress" Icon="add" />
+        <Progress Value="@progress"/>
     </DashoardItem>
 </div>
 

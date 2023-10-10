@@ -1,7 +1,8 @@
 ﻿<div>
     <div class="col s3 m3">
         <div style="height:130px;" class="card-panel @CardColour">
-            <span class="white-text">
+            <div>@Value</div>
+            <span class="white-text">               
                 @ChildContent
             </span>
         </div>
@@ -14,4 +15,7 @@
 
     [Parameter]
     public string CardColour { get; set; }
+
+    [Parameter]
+    public int Value { get; set; }    
 }

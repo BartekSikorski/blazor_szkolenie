@@ -1,0 +1,11 @@
+﻿<div>
+    <div class="progress">
+        <div class="determinate" style="width: @Value%"></div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int Value { get; set;  }
+}
