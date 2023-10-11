@@ -1,8 +1,14 @@
-﻿<Router AppAssembly="@typeof(App).Assembly"
+﻿
+
+
+<Router AppAssembly="@typeof(App).Assembly"
         OnNavigateAsync="OnNavigateAsync">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MyLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        <ModalDialog @ref="modalDialog" />
+        <CascadingValue Value="modalDialog">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MyLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </CascadingValue>
     </Found>
     <NotFound>
         <PageTitle>Not found</PageTitle>
@@ -13,8 +19,10 @@
 </Router>
 
 @code {
+    private ModalDialog modalDialog;
+
     private async Task OnNavigateAsync(NavigationContext context)
     {
-        
+
     }
 }

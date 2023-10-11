@@ -5,7 +5,7 @@
 
 <h3>Hello Users!</h3>
 
-<ModalDialog @ref="modalDialog" Title="Usuwanie użytkownika" />
+
 
 <a class="waves-effect waves-light btn" href="/users/new">Add new user</a>
 
@@ -44,7 +44,10 @@ else
 }
 
 @code {
-    private ModalDialog modalDialog;
+
+
+    [CascadingParameter]
+    public ModalDialog modalDialog { get; set;  }
 
     private MarkupString html;
 
