@@ -6,7 +6,11 @@
 
 
 <div class="row">
-    <EditForm Model="@user" class="col s12" OnSubmit="@HandleSubmit">
+    <EditForm Model="@user" class="col s12" OnValidSubmit="@HandleValidSubmit">
+
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
         <div class="row">
             <div class="input-field col s6">
                 <InputText placeholder="Placeholder" @bind-Value="user.FirstName" class="a" />
@@ -38,7 +42,7 @@
 @code {
     private User user = new();
 
-    private async Task HandleSubmit()
+    private async Task HandleValidSubmit()
     {
         await Api.AddAsync(user);
     }
