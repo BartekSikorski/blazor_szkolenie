@@ -1,4 +1,5 @@
 using Api.Hubs;
+using Bogus;
 using Domain.Abstractions;
 using Domain.Models;
 using Infrastructure;
@@ -7,11 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSingleton<Faker<User>, UserFaker>();
 builder.Services.AddSingleton<IIssueRepository, FakeIssueRepository>();
 builder.Services.AddSingleton<IUserRepository, FakeUserRepository>();
-builder.Services.AddSingleton<IEnumerable<User>>(_ =>
-{    
-    UserFaker faker = new UserFaker();
+builder.Services.AddSingleton<IEnumerable<User>>(sp =>
+{
+    var faker = sp.GetRequiredService<Faker<User>>();
 
     var users = faker.Generate(5);
 
