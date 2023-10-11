@@ -22,12 +22,9 @@ public partial class List : IDisposable
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(TimeSpan.FromSeconds(3));
-        users = await Api.GetAllAsync();
-
         var faker = new Faker<User>()
-            .RuleFor(p => p.FirstName, f => f.Person.FirstName)
-            .RuleFor(p => p.LastName, f => f.Person.LastName);
+        .RuleFor(p => p.FirstName, f => f.Person.FirstName)
+        .RuleFor(p => p.LastName, f => f.Person.LastName);
 
         timer = new Timer(new TimerCallback(_ =>
         {
@@ -37,7 +34,13 @@ public partial class List : IDisposable
 
             StateHasChanged();
 
-        }), null, 1000, 5000);
+        }), null, 5000, 5000);
+
+        users = await Api.GetAllAsync();
+
+    
+
+       
 
     }
 }
