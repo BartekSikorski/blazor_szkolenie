@@ -58,11 +58,13 @@ app.MapGet("/api/users/search", async (IUserRepository repository, [AsParameters
 app.MapGet("/api/users/{id}", async (IUserRepository repository, int id) => await repository.GetById(id))
     .WithName("GetUserById");
 
-app.MapPost("/api/users", async (IUserRepository repository, [FromBody] User user, IHubContext<UsersHub> hubContext) => {
+app.MapPost("/api/users", async (IUserRepository repository, [FromBody] User user, IHubContext<StrongTypedUsersHub, IClientUsersHub> hubContext) => {
     
     await repository.AddAsync(user);
 
-    await hubContext.Clients.All.SendAsync("UserAdded", user);
+    // await hubContext.Clients.All.SendAsync("UserAdded", user);
+
+    await hubContext.Clients.All.UserAdded(user);
 
     return Results.CreatedAtRoute("GetUserById", new { id = user.Id }, user);
 });
@@ -132,6 +134,6 @@ app.MapPost("/api/users", async (IUserRepository repository, [FromBody] User use
 
 
 app.MapHub<IssuesHub>("signalr/issues");
-app.MapHub<UsersHub>("signalr/users");
+app.MapHub<StrongTypedUsersHub>("signalr/users");
 
 app.Run();

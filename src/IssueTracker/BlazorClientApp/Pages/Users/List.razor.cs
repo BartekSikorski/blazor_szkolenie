@@ -1,5 +1,6 @@
 ﻿using BlazorClientApp.Services;
 using Bogus;
+using Domain.Abstractions;
 using Domain.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -44,8 +45,7 @@ public partial class List : IAsyncDisposable
 
         users = await Api.GetAllAsync();
 
-
-        Connection.On<User>("UserAdded", user =>
+        Connection.On<User>(nameof(IClientUsersHub.UserAdded), user =>
         {
             var u = users.ToList();
             u.Add(user);

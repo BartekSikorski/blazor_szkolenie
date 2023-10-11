@@ -9,3 +9,8 @@ public class UsersHub : Hub
         return base.OnConnectedAsync();
     }
 }
+
+public class StrongTypedUsersHub : Hub<IClientUsersHub>
+{
+
+}
