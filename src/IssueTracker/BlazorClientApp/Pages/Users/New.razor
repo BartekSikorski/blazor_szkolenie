@@ -1,58 +1,83 @@
 ﻿@page "/Users/New"
+@page "/Users/Edit/{id:int}"
+
 @using Blazored.FluentValidation
 @inject UserApiService Api
 @inject NavigationManager NavigationManager
 
 <h3>New User</h3>
 
+@if (user is not null)
+{
+    <div class="row">
+        <EditForm Model="@user" class="col s12" OnValidSubmit="@HandleValidSubmit">
 
-<div class="row">
-    <EditForm Model="@user" class="col s12" OnValidSubmit="@HandleValidSubmit">
+            <FluentValidationValidator />
+            <ValidationSummary />
 
-        <FluentValidationValidator />
-        <ValidationSummary />
+            <div class="row">
+                <div class="input-field col s6">
+                    <InputText id="first_name" @bind-Value="user.FirstName" class="a" @ref="firstNameElementReference" />
+                    <ValidationMessage For="()=>user.FirstName" />
+                    <label for="first_name">First Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <InputText id="last_name" type="text" class="validate" @bind-Value=user.LastName />
+                    <ValidationMessage For="()=>user.LastName" />
+                    <label for="last_name">Last Name</label>
+                </div>
+            </div>       
 
-        <div class="row">
-            <div class="input-field col s6">
-                <InputText id="first_name" @bind-Value="user.FirstName" class="a" @ref="firstNameElementReference" />
-                <ValidationMessage For="()=>user.FirstName" />
-                <label for="first_name">First Name</label>
+            <div class="row">
+                <div class="input-field col s12">
+                    <InputText id="email" type="email" class="validate" @bind-Value=user.Email />
+                    <ValidationMessage For="()=>user.Email" />
+                    <label for="email">Email</label>
+                </div>
             </div>
-            <div class="input-field col s6">
-                <InputText id="last_name" type="text" class="validate" @bind-Value=user.LastName />
-                <ValidationMessage For="()=>user.LastName" />
-                <label for="last_name">Last Name</label>
+
+            @foreach (var address in user.Addresses)
+            {
+                <AddressComponent Address="@address" OnRemove="Remove" />
+            }
+
+            <div class="row">
+                <button type="button" class="waves-effect waves-light btn" @onclick="AddAddress">Add address</button>
+                <button type="submit" class="waves-effect waves-light btn">Save</button>
             </div>
-        </div>       
-        
-        <div class="row">
-            <div class="input-field col s12">
-                <InputText id="email" type="email" class="validate" @bind-Value=user.Email />
-                <ValidationMessage For="()=>user.Email" />
-                <label for="email">Email</label>
-            </div>
-        </div>
 
-        @foreach(var address in user.Addresses)
-        {
-            <AddressComponent Address="@address" OnRemove="Remove" />
-        }
-
-        <div class="row">
-            <button type="button" class="waves-effect waves-light btn" @onclick="AddAddress">Add address</button>
-            <button type="submit" class="waves-effect waves-light btn">Save</button>
-        </div>
-
-    </EditForm>
+        </EditForm>
 
 
-</div>
+    </div>
+}
+else
+{
+    <ProgressBar />
+}
 
 
 @code {
-    private User user = new();
+    private User user;
 
     private InputText firstNameElementReference;
+
+    [Parameter]
+    public int? Id { get; set; }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id.HasValue)
+        {
+            user = await Api.GetByIdAsync(Id.Value);
+        }
+        else
+        {
+            user = new();
+        }
+
+    }
 
     private void AddAddress()
     {
@@ -66,7 +91,14 @@
 
     private async Task HandleValidSubmit()
     {
-        await Api.AddAsync(user);
+        if (Id.HasValue)
+        {
+            await Api.UpdateAsync(user);
+        }
+        else
+        {
+            await Api.AddAsync(user);
+        }
 
         NavigationManager.NavigateTo("/users");
 

@@ -4,9 +4,9 @@
 
 <h3>Hello Users!</h3>
 
+<ModalDialog @ref="modalDialog" Title="Usuwanie użytkownika" />
 
 <a class="waves-effect waves-light btn" href="/users/new">Add new user</a>
-
 
 <div>
     <SearchPanel OnSearch="Search" />
@@ -25,17 +25,22 @@ else
             <th>First name</th>
             <th>Last name</th>
             <th>Email</th>
+            <th></th>
         </HeaderTemplate>
         <RowTemplate Context="user">
-            <td>@user.FirstName</td>
-            <td>@user.LastName</td>
+            <td><a href="/users/edit/@user.Id">@user.FirstName</a></td>
+            <td><a href="/users/edit/@user.Id">@user.LastName</a></td>
             <td>@user.Email</td>
+            <td>
+                <a href="/users/edit/@user.Id" class="waves-effect waves-light btn">Edit</a>
+                <button type="button" class="waves-effect waves-light btn" @onclick="@(()=>Remove(user))">Remove</button>
+            </td>
         </RowTemplate>
     </EntityTableTemplate>
 }
 
 @code {
-
+    private ModalDialog modalDialog;
 
 
     private async Task Search(string searchText)
@@ -43,6 +48,13 @@ else
         var searchCriteria = new UserSearchCriteria { FirstName = searchText };
 
         users = await Api.GetBySearchCriteriaAsync(searchCriteria);
+    }
+
+    private async Task Remove(User user)
+    {
+        modalDialog.ChildContent = @<p>Czy chcesz usunąć @user.FirstName @user.LastName</p>;
+     
+        modalDialog.Open();
     }
 
 }
