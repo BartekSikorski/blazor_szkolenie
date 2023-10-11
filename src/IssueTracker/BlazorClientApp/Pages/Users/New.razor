@@ -2,6 +2,7 @@
 @using Blazored.FluentValidation
 @using Microsoft.AspNetCore.Components.Forms
 @inject UserApiService Api
+@inject NavigationManager NavigationManager
 
 <h3>New User</h3>
 
@@ -49,6 +50,8 @@
     private async Task HandleValidSubmit()
     {
         await Api.AddAsync(user);
+
+        NavigationManager.NavigateTo("/users");
     }
 
 
