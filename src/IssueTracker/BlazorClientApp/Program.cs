@@ -1,5 +1,8 @@
 using BlazorClientApp;
 using BlazorClientApp.Services;
+using Domain.Models;
+using Domain.Validators;
+using FluentValidation;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.SignalR.Client;

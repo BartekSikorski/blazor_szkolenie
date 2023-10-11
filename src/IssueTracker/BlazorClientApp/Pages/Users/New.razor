@@ -1,4 +1,5 @@
 ﻿@page "/Users/New"
+@using Blazored.FluentValidation
 @using Microsoft.AspNetCore.Components.Forms
 @inject UserApiService Api
 
@@ -8,7 +9,7 @@
 <div class="row">
     <EditForm Model="@user" class="col s12" OnValidSubmit="@HandleValidSubmit">
 
-        <DataAnnotationsValidator />
+        <FluentValidationValidator />
         <ValidationSummary />
 
         <div class="row">
