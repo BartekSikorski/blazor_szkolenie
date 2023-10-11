@@ -15,7 +15,7 @@
 
         <div class="row">
             <div class="input-field col s6">
-                <InputText placeholder="Placeholder" @bind-Value="user.FirstName" class="a" />
+                <InputText placeholder="Placeholder" @bind-Value="user.FirstName" class="a" @ref="firstNameElementReference" />
                 <ValidationMessage For="()=>user.FirstName" />
                 <label for="first_name">First Name</label>
             </div>
@@ -47,11 +47,25 @@
 @code {
     private User user = new();
 
+    private InputText firstNameElementReference;
+
+
+
     private async Task HandleValidSubmit()
     {
         await Api.AddAsync(user);
 
         NavigationManager.NavigateTo("/users");
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstNameElementReference is not null)
+        {
+            await firstNameElementReference.Element.Value.FocusAsync();
+        }
+        
     }
 
 
