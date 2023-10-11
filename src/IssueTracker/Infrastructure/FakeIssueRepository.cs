@@ -18,6 +18,11 @@ public class FakeIssueRepository : IIssueRepository
         .ToDictionary(p=>p.Id);
     }
 
+    public Task AddAsync(Issue entity)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Close(int id)
     {
         throw new NotImplementedException();

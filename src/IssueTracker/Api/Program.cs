@@ -54,6 +54,80 @@ app.MapGet("/api/users", async (IUserRepository repository) => await repository.
 
 app.MapGet("/api/users/search", async (IUserRepository repository, [AsParameters] UserSearchCriteria criteria) => await repository.GetBySearchCriteriaAsync(criteria));
 
+app.MapGet("/api/users/{id}", async (IUserRepository repository, int id) => await repository.GetById(id))
+    .WithName("GetUserById");
+
+app.MapPost("/api/users", async (IUserRepository repository, [FromBody] User user) => {
+    
+    await repository.AddAsync(user);
+
+    return Results.CreatedAtRoute("GetUserById", new { id = user.Id }, user);
+});
+
+/* 
+ REST API - RESTfull
+
+ GET  /api/users/{id}      - pobierz
+ POST /api/users           - utwórz
+ PUT /api/users/{id}       - zamieñ
+ PATCH /api/users/{id}     - zmieñ
+ DELETE  /api/users/{id}   - usuñ
+
+ // OpenApi / Swagger
+
+ request
+ --- 
+ GET /api/users HTTP/1.1
+ Accept: application/json
+ X-Version: 2.0
+ ---
+
+ response
+ ---
+ 200 OK 
+ ---
+
+ request
+ --- 
+ POST /api/users HTTP/1.1
+ Content-Type: application/json
+ {
+    "FirstName":"John",
+    "LastName":"Smith",
+ }
+ --- 
+
+ response
+ ---
+ 201 Created
+ Content-Type: application/json
+ Location: /api/users/10
+ {
+    "Id": 10,
+    "FirstName":"John",
+    "LastName":"Smith",
+ }
+ ---
+
+
+ request
+ --- 
+ PUT /api/users/10 HTTP/1.1
+ Content-Type: application/json
+ {
+    "FirstName":"Bob",
+    "LastName":"Smith",
+ }
+ --- 
+
+ response
+ ---
+ 204 NoContent
+ ---
+ 
+*/
+
+
 app.MapHub<IssuesHub>("signalr/issues");
 
 app.Run();
