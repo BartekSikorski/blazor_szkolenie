@@ -1,4 +1,6 @@
 ﻿@page "/Users"
+@using Microsoft.AspNetCore.SignalR.Client
+
 
 <h3>Hello Users!</h3>
 
@@ -33,6 +35,8 @@ else
 }
 
 @code {
+
+
 
     private async Task Search(string searchText)
     {

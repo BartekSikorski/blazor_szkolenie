@@ -5,6 +5,7 @@ using Domain.Models;
 using Infrastructure;
 using Infrastructure.Fakers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,9 +58,11 @@ app.MapGet("/api/users/search", async (IUserRepository repository, [AsParameters
 app.MapGet("/api/users/{id}", async (IUserRepository repository, int id) => await repository.GetById(id))
     .WithName("GetUserById");
 
-app.MapPost("/api/users", async (IUserRepository repository, [FromBody] User user) => {
+app.MapPost("/api/users", async (IUserRepository repository, [FromBody] User user, IHubContext<UsersHub> hubContext) => {
     
     await repository.AddAsync(user);
+
+    await hubContext.Clients.All.SendAsync("UserAdded", user);
 
     return Results.CreatedAtRoute("GetUserById", new { id = user.Id }, user);
 });
@@ -129,5 +132,6 @@ app.MapPost("/api/users", async (IUserRepository repository, [FromBody] User use
 
 
 app.MapHub<IssuesHub>("signalr/issues");
+app.MapHub<UsersHub>("signalr/users");
 
 app.Run();

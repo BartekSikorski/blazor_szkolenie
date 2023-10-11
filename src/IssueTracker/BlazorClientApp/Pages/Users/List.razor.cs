@@ -2,11 +2,12 @@
 using Bogus;
 using Domain.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading;
 
 namespace BlazorClientApp.Pages.Users;
 
-public partial class List : IDisposable
+public partial class List : IAsyncDisposable
 {
     private IEnumerable<User> users;
 
@@ -15,13 +16,18 @@ public partial class List : IDisposable
     [Inject]
     public UserApiService Api { get; set; }
 
-    public void Dispose()
+    [Inject]
+    public HubConnection Connection { get; set; }
+    
+    public async ValueTask DisposeAsync()
     {
         timer.Dispose();
+        await Connection.StopAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
+        
         var faker = new Faker<User>()
         .RuleFor(p => p.FirstName, f => f.Person.FirstName)
         .RuleFor(p => p.LastName, f => f.Person.LastName);
@@ -38,9 +44,20 @@ public partial class List : IDisposable
 
         users = await Api.GetAllAsync();
 
-    
 
-       
+        Connection.On<User>("UserAdded", user =>
+        {
+            var u = users.ToList();
+            u.Add(user);
+            users = u.AsEnumerable();
+
+            StateHasChanged();
+        });
+
+        await Connection.StartAsync();
+
+
+
 
     }
 }
