@@ -14,10 +14,12 @@
         <div class="row">
             <div class="input-field col s6">
                 <InputText placeholder="Placeholder" @bind-Value="user.FirstName" class="a" />
+                <ValidationMessage For="()=>user.FirstName" />
                 <label for="first_name">First Name</label>
             </div>
             <div class="input-field col s6">
                 <InputText id="last_name" type="text" class="validate" @bind-Value=user.LastName />
+                <ValidationMessage For="()=>user.LastName" />
                 <label for="last_name">Last Name</label>
             </div>
         </div>       
@@ -25,6 +27,7 @@
         <div class="row">
             <div class="input-field col s12">
                 <InputText id="email" type="email" class="validate" @bind-Value=user.Email />
+                <ValidationMessage For="()=>user.Email" />
                 <label for="email">Email</label>
             </div>
         </div>
