@@ -1,4 +1,5 @@
 ﻿@page "/Users"
+@using Microsoft.AspNetCore.Components.Rendering;
 @using Microsoft.AspNetCore.SignalR.Client
 
 
@@ -37,10 +38,15 @@ else
             </td>
         </RowTemplate>
     </EntityTableTemplate>
+
+    @html
+
 }
 
 @code {
     private ModalDialog modalDialog;
+
+    private MarkupString html;
 
 
     private async Task Search(string searchText)
@@ -52,9 +58,25 @@ else
 
     private async Task Remove(User user)
     {
-        modalDialog.ChildContent = @<p>Czy chcesz usunąć @user.FirstName @user.LastName</p>;
-     
+        // hint: użyj HtmlSanitizer https://github.com/mganss/HtmlSanitizer
+        string text = $"<p>Czy chcesz usunąć {user.FirstName} {user.LastName}</p>";
+
+        html = new MarkupString(text);
+
+        // modalDialog.ChildContent = @<p>Czy chcesz usunąć @user.FirstName @user.LastName</p>;
+
+        RenderFragment renderFragment = builder => MyRender(builder, user);
+        modalDialog.ChildContent = renderFragment;
+
         modalDialog.Open();
+    }
+
+    private void MyRender(RenderTreeBuilder renderTreeBuilder, User user)
+    {
+        renderTreeBuilder.OpenElement(0, "p");
+        renderTreeBuilder.AddContent(1, $"Czy chcesz usunąć {user.FirstName} {user.LastName}");
+        renderTreeBuilder.CloseElement();
+
     }
 
 }

@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
     {
         // policy.AllowAnyOrigin();
         policy.WithOrigins("https://localhost:7085", "http://localhost:5281");
-        policy.WithMethods("GET");
+        policy.WithMethods("GET", "POST", "PUT");
         policy.AllowAnyHeader();
     });
 });
@@ -68,6 +68,8 @@ app.MapPost("/api/users", async (IUserRepository repository, [FromBody] User use
 
     return Results.CreatedAtRoute("GetUserById", new { id = user.Id }, user);
 });
+
+app.MapPut("/api/users/{id}", async (IUserRepository repository, int id, User user) => await repository.UpdateAsync(user));
 
 /* 
  REST API - RESTfull

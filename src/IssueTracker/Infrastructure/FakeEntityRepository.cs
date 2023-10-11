@@ -31,4 +31,14 @@ public class FakeEntityRepository<T> : IEntityRepository<T>
     {
         return Task.FromResult(_entities[id]);
     }
+
+    public async Task RemoveAsync(int id)
+    {
+        _entities.Remove(id);        
+    }
+
+    public async Task UpdateAsync(T entity)
+    {
+        _entities[entity.Id] = entity;        
+    }
 }

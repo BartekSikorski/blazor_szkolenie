@@ -37,4 +37,14 @@ public class FakeIssueRepository : IIssueRepository
     {
         return Task.FromResult(_issues[id]);
     }
+
+    public Task RemoveAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(Issue entity)
+    {
+        throw new NotImplementedException();
+    }
 }
