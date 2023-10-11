@@ -10,6 +10,10 @@
         <ValidationMessage For="()=>Address.Street" />
         <label for="street">Street</label>
     </div>
+
+    <div class="row">
+        <button type="button" class="waves-effect waves-light btn" @onclick="Remove">Remove</button>
+    </div>
 </div>
 
 
@@ -17,5 +21,13 @@
 
     [Parameter]
     public Address Address { get; set; }
+
+    [Parameter]
+    public EventCallback<Address> OnRemove { get; set; } 
+
+    public async Task Remove()
+    {
+        await OnRemove.InvokeAsync(Address);
+    }
 
 }

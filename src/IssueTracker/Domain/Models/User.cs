@@ -17,6 +17,11 @@ public class User : BaseEntity
     {
         Addresses.Add(address);
     }
+
+    public void Remove(Address address)
+    {
+        Addresses.Remove(address);
+    }
 }
 
 
