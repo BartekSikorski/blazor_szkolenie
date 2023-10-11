@@ -71,7 +71,25 @@ else
         RenderFragment renderFragment = builder => MyRender(builder, user);
         modalDialog.ChildContent = renderFragment;
 
+        // modalDialog.OnResult = new EventCallbackFactory().Create<bool>(this, result => RemoveUser(result, user));
+
+        modalDialog.OnResult = Test<bool>(result => RemoveUser(result, user));
+        
+
         modalDialog.Open();
+    }
+
+    private EventCallback<T> Test<T>(Action<T> action)
+    {
+        return new EventCallbackFactory().Create<T>(this, action);
+    }
+
+    private async Task RemoveUser(bool result, User user)
+    {
+        if (result)
+        {
+            await Api.RemoveAsync(user.Id);
+        }
     }
 
     private void MyRender(RenderTreeBuilder renderTreeBuilder, User user)
