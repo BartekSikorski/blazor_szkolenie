@@ -4,10 +4,15 @@
 <Header />
 
 <main>
-
-    
-
-    @Body
+    <ModalDialog @ref="modalDialog" />
+    <CascadingValue Value="modalDialog">
+        @Body
+    </CascadingValue>
 </main>
 
 <Footer />
+
+@code {
+    private ModalDialog modalDialog;
+
+}
