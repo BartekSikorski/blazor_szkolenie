@@ -30,12 +30,16 @@ public class IssuesHub : Hub
        
         await base.OnConnectedAsync();
 
+        // await this.Groups.AddToGroupAsync(Context.ConnectionId, "GrupaA");
+
         var issues = faker.GenerateForever();
 
         foreach(var issue in issues)
         {
             await this.Clients.All.SendAsync("IssueAdded", issue);
             await Task.Delay(1000);
+
+           // await this.Clients.Group("GrupaA").SendAsync("");
         }
     }
 

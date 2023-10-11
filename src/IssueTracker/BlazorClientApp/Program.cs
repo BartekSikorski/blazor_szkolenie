@@ -17,7 +17,7 @@ builder.Services.AddHttpClient<UserApiService>(sp => sp.BaseAddress = new Uri("h
 
 builder.Services.AddSingleton<HubConnection>(_ => new HubConnectionBuilder()
     .WithUrl("https://localhost:7228/signalr/issues")
-    .WithAutomaticReconnect()
+    .WithAutomaticReconnect()    
     .Build());
 
 await builder.Build().RunAsync();
