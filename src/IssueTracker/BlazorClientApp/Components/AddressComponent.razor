@@ -1,0 +1,21 @@
+﻿
+<div class="row">
+    <div class="input-field col s6">
+        <InputText id="city" placeholder="Placeholder" @bind-Value="@Address.City" />
+        <ValidationMessage For="()=>Address.City" />
+        <label for="city">City</label>
+    </div>
+    <div class="input-field col s6">
+        <InputText id="street" type="text" class="validate" @bind-Value="Address.Street" />
+        <ValidationMessage For="()=>Address.Street" />
+        <label for="street">Street</label>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public Address Address { get; set; }
+
+}

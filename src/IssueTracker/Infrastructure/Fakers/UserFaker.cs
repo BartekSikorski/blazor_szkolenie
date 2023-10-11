@@ -25,5 +25,6 @@ public class UserFaker : Faker<User>
         RuleFor(p => p.IsRemoved, f => f.Random.Bool(0.3f));
         RuleFor(p => p.CreatedAt, f => f.Date.Past());
         RuleFor(p => p.UpdatedAt, (f, user) => f.Date.Between(user.CreatedAt, DateTime.Now));
+        Ignore(p => p.Addresses);
     }
 }
