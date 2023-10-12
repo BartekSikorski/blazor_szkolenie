@@ -1,4 +1,11 @@
-﻿<nav>
+﻿@using BlazorClientApp.Features.Counter;
+@using Fluxor.Blazor.Web.Components;
+@using Fluxor;
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<CounterState> CounterState
+
+<nav>
     <ul>
         <li>
             <a href="/dashboard">Dashboard</a>
@@ -13,7 +20,7 @@
         </li>
 
         <li>
-            <a href="/counter">Counter</a>
+            <a href="/counter">Counter (@CounterState.Value.CurrentCount)</a>
         </li>
     </ul>
 </nav>

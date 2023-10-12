@@ -3,6 +3,7 @@ using BlazorClientApp.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.SignalR.Client;
+using Fluxor;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -18,5 +19,8 @@ builder.Services.AddSingleton<HubConnection>(_ => new HubConnectionBuilder()
     .WithUrl("https://localhost:7228/signalr/users")
     .WithAutomaticReconnect()    
     .Build());
+
+// PM> Install-Package Fluxor.Blazor.Web
+builder.Services.AddFluxor(options => options.ScanAssemblies(typeof(Program).Assembly));
 
 await builder.Build().RunAsync();
