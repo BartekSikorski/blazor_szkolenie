@@ -9,7 +9,7 @@
 <button @onclick="ShowAlert" class="waves-effect waves-light btn">Show alert</button>
 <button @onclick="ShowUser" class="waves-effect waves-light btn">Show user</button>
 <button @onclick="ShowConfirm" class="waves-effect waves-light btn">Show confirm</button>
-
+<button @onclick="ShowPrompt" class="waves-effect waves-light btn">Show prompt</button>
 
 
 @code {
@@ -45,6 +45,16 @@
     {        
         var result = await JS.InvokeAsync<bool>("confirm", "Are you sure?");
     }
+
+    private async Task ShowPrompt()
+    {
+        var module = await JS.InvokeAsync<IJSObjectReference>("import", "./Pages/Index.razor.js");
+
+        await module.InvokeVoidAsync("showPrompt", "What's your name?");
+
+    }
+   
+  
 
 
     // js console: DotNet.invokeMethodAsync("BlazorClientApp", "JSToCSCall", "Hello World!")
