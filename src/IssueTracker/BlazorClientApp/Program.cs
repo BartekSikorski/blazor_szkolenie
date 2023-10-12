@@ -21,6 +21,10 @@ builder.Services.AddSingleton<HubConnection>(_ => new HubConnectionBuilder()
     .Build());
 
 // PM> Install-Package Fluxor.Blazor.Web
-builder.Services.AddFluxor(options => options.ScanAssemblies(typeof(Program).Assembly));
+// PM> Install-Package Fluxor.Blazor.Web.ReduxDevTools
+builder.Services.AddFluxor(options => options.ScanAssemblies(typeof(Program).Assembly).UseReduxDevTools());
+
+
+
 
 await builder.Build().RunAsync();

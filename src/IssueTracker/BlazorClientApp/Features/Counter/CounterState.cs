@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using System.ComponentModel;
 
 namespace BlazorClientApp.Features.Counter;
 
@@ -13,6 +14,8 @@ public class CounterFeature : Feature<CounterState>
 
 public class CounterIncrementAction {}
 
+public record CounterIncrementByValueAction(int Value);
+
 
 public static class CounterReducers
 {
@@ -21,4 +24,11 @@ public static class CounterReducers
     {
         CurrentCount = state.CurrentCount + 1
     };
+
+    [ReducerMethod]
+    public static CounterState OnIncrement(CounterState state, CounterIncrementByValueAction action) => state with
+    {
+        CurrentCount = state.CurrentCount + action.Value
+    };
 }
+
