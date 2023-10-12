@@ -1,4 +1,6 @@
 ﻿@page "/counter"
+@using Blazored.LocalStorage;
+@inject ILocalStorageService LocalStorage
 
 
 
@@ -26,8 +28,28 @@
     [CascadingParameter]
     public MyContext MyContext { get; set; }
 
-    private void Increment()
+    private const string counterKey = "counter";
+
+    private async Task Increment()
     {
         MyContext.Counter++;
+
+        await LocalStorage.SetItemAsync<int>(counterKey, MyContext.Counter);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MyContext.Counter = await LocalStorage.GetItemAsync<int>(counterKey);
+
+        LocalStorage.Changed += LocalStorage_Changed;
+    }
+
+    private void LocalStorage_Changed(object? sender, ChangedEventArgs e)
+    {
+        if (e.Key == counterKey)
+        {
+            MyContext.Counter = (int)e.NewValue;
+            StateHasChanged();
+        }
     }
 }
