@@ -1,23 +1,28 @@
 ﻿@page "/Issues"
 @page "/Zgloszenia"
+@using BlazorClientApp.Features.Issue;
+@using Fluxor;
+@using Fluxor.Blazor.Web.Components;
 @using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager navigationManager
-@inject IssueApiService Api
-@*  PM> Install-Package Microsoft.AspNetCore.SignalR.Client *@
 @inject HubConnection connection
+
+@inherits FluxorComponent
+@inject IDispatcher Dispatcher
+@inject IState<IssueState> IssueState
 
 @implements IAsyncDisposable
 
 <h3>Issues</h3>
 
-@if (issues is null)
+@if (IssueState.Value.IsLoading)
 {
     <ProgressBar />    
 }
 else
 {
     <ul>
-        @foreach (var issue in issues)
+        @foreach (var issue in IssueState.Value.Issues)
         {
             <li><strong>@issue.Title</strong> @issue.Description</li>
         }
@@ -25,29 +30,29 @@ else
 }
 
 @code {
-    private IEnumerable<Issue> issues;
 
     protected async override Task OnInitializedAsync()
     {
+        Dispatcher.Dispatch(new GetAllIssuesAction());
+
         navigationManager.LocationChanged += HandleLocationChanged;
 
-        await Task.Delay(TimeSpan.FromSeconds(3));
-        issues = await Api.GetAllAsync();
+        // await Task.Delay(TimeSpan.FromSeconds(3));
+        // issues = await Api.GetAllAsync();
 
+        // connection.On<Issue>("IssueAdded", issue =>
+        // {
+        //     var u = issues.ToList();
 
-        connection.On<Issue>("IssueAdded", issue =>
-        {
-            var u = issues.ToList();
+        //     u.Add(issue);
 
-            u.Add(issue);
+        //     issues = u.AsEnumerable();
 
-            issues = u.AsEnumerable();
+        //     StateHasChanged();
 
-            StateHasChanged();
+        // });
 
-        });
-
-        await connection.StartAsync();
+      //  await connection.StartAsync();
     }
 
     private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
@@ -59,7 +64,7 @@ else
     {
         navigationManager.LocationChanged -= HandleLocationChanged;
 
-        await connection.StopAsync();
+      //  await connection.StopAsync();
 
     }
 
