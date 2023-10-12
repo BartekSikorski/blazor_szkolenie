@@ -1,5 +1,4 @@
 ﻿
-<CascadingValue Value="@MyContext">
     <Router AppAssembly="@typeof(App).Assembly"
             OnNavigateAsync="OnNavigateAsync">
         <Found Context="routeData">
@@ -14,13 +13,11 @@
         </NotFound>
     </Router>
 
-</CascadingValue>
-
 @code {
     private async Task OnNavigateAsync(NavigationContext context)
     {
 
     }
 
-    public MyContext MyContext { get; set; } = MyContext.Instance;
+    
 }

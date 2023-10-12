@@ -1,11 +1,9 @@
 ﻿using BlazorClientApp.Services;
-using Blazored.LocalStorage;
 using Bogus;
 using Domain.Abstractions;
 using Domain.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
-using System.Threading;
 
 namespace BlazorClientApp.Pages.Users;
 
@@ -21,9 +19,6 @@ public partial class List : IAsyncDisposable
     [Inject]
     public HubConnection Connection { get; set; }
 
-    [Inject]
-    public ILocalStorageService LocalStorage { get; set; }  
-
     public async ValueTask DisposeAsync()
     {
         timer.Dispose();
@@ -32,8 +27,6 @@ public partial class List : IAsyncDisposable
 
     protected override async Task OnInitializedAsync()
     {
-        LocalStorage.Changed += LocalStorage_Changed;
-
         var faker = new Faker<User>()
         .RuleFor(p => p.FirstName, f => f.Person.FirstName)
         .RuleFor(p => p.LastName, f => f.Person.LastName);
@@ -66,8 +59,5 @@ public partial class List : IAsyncDisposable
 
     }
 
-    private void LocalStorage_Changed(object? sender, ChangedEventArgs e)
-    {
-        throw new NotImplementedException();
-    }
+   
 }

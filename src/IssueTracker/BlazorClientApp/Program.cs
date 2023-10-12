@@ -1,9 +1,5 @@
 using BlazorClientApp;
 using BlazorClientApp.Services;
-using Blazored.LocalStorage;
-using Domain.Models;
-using Domain.Validators;
-using FluentValidation;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -22,7 +18,5 @@ builder.Services.AddSingleton<HubConnection>(_ => new HubConnectionBuilder()
     .WithUrl("https://localhost:7228/signalr/users")
     .WithAutomaticReconnect()    
     .Build());
-
-builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 await builder.Build().RunAsync();
