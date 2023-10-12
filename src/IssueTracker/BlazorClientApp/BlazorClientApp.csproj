@@ -1,25 +1,42 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
-    <PackageReference Include="Bogus" Version="34.0.2" />
-    <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
-    <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="5.9.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.11" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.12" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+	  <None Remove="SettingsModule.dll" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Content Include="SettingsModule.dll">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
+		<PackageReference Include="Bogus" Version="34.0.2" />
+		<PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
+		<PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="5.9.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.11" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+	</ItemGroup>
+
+	
+
+	<ItemGroup>
+		<ProjectReference Include="..\Domain\Domain.csproj" />
+		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\SettingsModule\SettingsModule.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<BlazorWebAssemblyLazyLoad Include="SettingsModule.dll" />
+	</ItemGroup>
 
 </Project>

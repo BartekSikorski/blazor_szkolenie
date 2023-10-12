@@ -7,6 +7,7 @@ using Fluxor;
 using Bogus;
 using Domain.Models;
 using Infrastructure.Fakers;
+using Microsoft.AspNetCore.Components.WebAssembly.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -33,5 +34,8 @@ builder.Services.AddSingleton<Faker<User>, UserFaker>();
 // https://github.com/IEvangelist/blazorators
 
 // https://helion.pl/ksiazki/poznaj-blazor-buduj-jednostronicowe-aplikacje-przy-pomocy-webassembly-i-c-david-pine,e_37h0.htm#format/e
+
+
+builder.Services.AddScoped<LazyAssemblyLoader>();
 
 await builder.Build().RunAsync();

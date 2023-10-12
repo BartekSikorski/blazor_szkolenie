@@ -1,7 +1,11 @@
-﻿
+﻿@using System.Reflection;
+@using Microsoft.AspNetCore.Components.WebAssembly.Services;
+@inject LazyAssemblyLoader AssemblyLoader
+
 <Fluxor.Blazor.Web.StoreInitializer />
 
 <Router AppAssembly="@typeof(App).Assembly"
+        AdditionalAssemblies="_lazyLoadedAssemblies"
         OnNavigateAsync="OnNavigateAsync">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MyLayout)" />
@@ -16,9 +20,16 @@
 </Router>
 
 @code {
+    private List<Assembly> _lazyLoadedAssemblies = new();
+
     private async Task OnNavigateAsync(NavigationContext context)
     {
+        if (context.Path == "settings")
+        {
+            var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "SettingsModule.dll" } );
 
+            _lazyLoadedAssemblies.AddRange(assemblies);
+        }
     }
 
 
