@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.SignalR;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<Faker<User>, UserFaker>();
+builder.Services.AddSingleton<Faker<Issue>, IssueFaker>();
 builder.Services.AddSingleton<IIssueRepository, FakeIssueRepository>();
 builder.Services.AddSingleton<IUserRepository, FakeUserRepository>();
 builder.Services.AddSingleton<IEnumerable<User>>(sp =>
@@ -19,6 +20,15 @@ builder.Services.AddSingleton<IEnumerable<User>>(sp =>
     var users = faker.Generate(5);
 
     return users;
+});
+
+builder.Services.AddSingleton<IEnumerable<Issue>>(sp =>
+{
+    var faker = sp.GetRequiredService<Faker<Issue>>();
+
+    var issues = faker.Generate(10_000);
+
+    return issues;
 });
 
 // Rejestracja reguly CORS
@@ -139,3 +149,5 @@ app.MapHub<IssuesHub>("signalr/issues");
 app.MapHub<StrongTypedUsersHub>("signalr/users");
 
 app.Run();
+
+

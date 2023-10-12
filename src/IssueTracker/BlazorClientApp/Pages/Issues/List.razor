@@ -4,6 +4,7 @@
 @using Fluxor;
 @using Fluxor.Blazor.Web.Components;
 @using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Components.Web.Virtualization
 @inject NavigationManager navigationManager
 @inject HubConnection connection
 
@@ -22,10 +23,11 @@
 else
 {
     <ul>
-        @foreach (var issue in IssueState.Value.Issues)
-        {
+        <Virtualize Items="IssueState.Value.Issues.ToList()" Context="issue" SpacerElement="li" OverscanCount="5">
             <li><strong>@issue.Title</strong> @issue.Description</li>
-        }
+        </Virtualize>
+ 
+        
     </ul>
 }
 

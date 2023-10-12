@@ -7,15 +7,9 @@ public class FakeIssueRepository : IIssueRepository
 {
     private readonly IDictionary<int, Issue> _issues;
 
-    public FakeIssueRepository()
+    public FakeIssueRepository(IEnumerable<Issue> issues)
     {
-        _issues = new List<Issue>
-        {
-            new Issue { Id = 1, Title = "Issue 1", Description = "Lorem ipsum 1" },
-            new Issue { Id = 2, Title = "Issue 2", Description = "Lorem ipsum 2" },
-            new Issue { Id = 3, Title = "Issue 3", Description = "Lorem ipsum 3" },
-        }
-        .ToDictionary(p=>p.Id);
+        _issues = issues.ToDictionary(p => p.Id);
     }
 
     public Task AddAsync(Issue entity)
