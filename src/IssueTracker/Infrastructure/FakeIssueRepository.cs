@@ -27,6 +27,13 @@ public class FakeIssueRepository : IIssueRepository
         return Task.FromResult(_issues.Values.AsEnumerable());
     }
 
+    public Task<IEnumerable<Issue>> GetAllAsync(IssueParameters parameters)
+    {
+        var q = _issues.Values.Skip(parameters.StartIndex).Take(parameters.Count).AsEnumerable();
+
+        return Task.FromResult(q);
+    }
+
     public Task<Issue> GetById(int id)
     {
         return Task.FromResult(_issues[id]);

@@ -13,5 +13,6 @@ public class IssueApiService
     }
 
     public Task<IEnumerable<Issue>> GetAllAsync() => client.GetFromJsonAsync<IEnumerable<Issue>>("api/issues");
+    public Task<IEnumerable<Issue>> GetAllAsync(IssueParameters parameters) => client.GetFromJsonAsync<IEnumerable<Issue>>($"api/issues?StartIndex={parameters.StartIndex}&Count={parameters.Count}");
     public Task<Issue> GetByIdAsync(int id) => client.GetFromJsonAsync<Issue>($"api/issues/{id}");
 }

@@ -11,6 +11,7 @@
 @inherits FluxorComponent
 @inject IDispatcher Dispatcher
 @inject IState<IssueState> IssueState
+@inject IssueApiService Api
 
 @implements IAsyncDisposable
 
@@ -23,7 +24,7 @@
 else
 {
     <ul>
-        <Virtualize Items="IssueState.Value.Issues.ToList()" Context="issue" SpacerElement="li" OverscanCount="5">
+        <Virtualize ItemsProvider="LoadIssues" Context="issue" SpacerElement="li" OverscanCount="5">
             <li><strong>@issue.Title</strong> @issue.Description</li>
         </Virtualize>
  
@@ -33,9 +34,23 @@ else
 
 @code {
 
+        private async ValueTask<ItemsProviderResult<Issue>> LoadIssues(ItemsProviderRequest request)
+        {
+            var parameters = new IssueParameters(request.StartIndex, request.Count);
+
+            var issues = await Api.GetAllAsync(parameters);
+
+            // TODO: dodać pobieranie z nagłówka odpowiedzi
+            // X-TotalCount: 1000
+
+            return new ItemsProviderResult<Issue>(issues, 10_000);
+
+            // Dispatcher.Dispatch(new GetAllIssuesWithParametersAction(parameters));
+    }
+
     protected async override Task OnInitializedAsync()
     {
-        Dispatcher.Dispatch(new GetAllIssuesAction());
+       //  Dispatcher.Dispatch(new GetAllIssuesAction());
 
         navigationManager.LocationChanged += HandleLocationChanged;
 

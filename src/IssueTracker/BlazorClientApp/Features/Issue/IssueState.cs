@@ -1,4 +1,5 @@
 ﻿using BlazorClientApp.Services;
+using Domain.Models;
 using Fluxor;
 
 namespace BlazorClientApp.Features.Issue;
@@ -15,12 +16,17 @@ public class IssueFeature : Feature<IssueState>
 
 public record GetAllIssuesAction { }
 
+public record GetAllIssuesWithParametersAction(IssueParameters parameters);
+
 public record GetAllIssuesResultAction(IEnumerable<Domain.Models.Issue> Issues);
 
 public static class IssueReducers
 {
     [ReducerMethod(typeof(GetAllIssuesAction))]
     public static IssueState OnGetAllIssues(IssueState state) => new IssueState(true, Array.Empty<Domain.Models.Issue>());
+
+    [ReducerMethod]
+    public static IssueState OnGetAllIssues(IssueState state, GetAllIssuesWithParametersAction action) => new IssueState(true, Array.Empty<Domain.Models.Issue>());
 
     [ReducerMethod]
     public static IssueState OnGetAllResultIssues(IssueState state, GetAllIssuesResultAction action) => new IssueState(false, action.Issues);
@@ -40,6 +46,17 @@ public class IssueEffects
     public async Task HandleGetAllIssuesAction(GetAllIssuesAction action, IDispatcher dispatcher)
     {
         var issues = await Api.GetAllAsync();
+
+        if (issues is not null)
+        {
+            dispatcher.Dispatch(new GetAllIssuesResultAction(issues));
+        }
+    }
+
+    [EffectMethod]
+    public async Task HandleGetAllIssuesAction(GetAllIssuesWithParametersAction action, IDispatcher dispatcher)
+    {
+        var issues = await Api.GetAllAsync(action.parameters);
 
         if (issues is not null)
         {

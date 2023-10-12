@@ -1,13 +1,9 @@
 ﻿using Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Abstractions;
 
 public interface IIssueRepository : IEntityRepository<Issue>
 {
+    Task<IEnumerable<Issue>> GetAllAsync(IssueParameters parameters);
     void Close(int id);
 }

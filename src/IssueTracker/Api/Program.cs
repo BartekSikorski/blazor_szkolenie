@@ -1,3 +1,4 @@
+using Api;
 using Api.Hubs;
 using Bogus;
 using Domain.Abstractions;
@@ -55,7 +56,10 @@ app.UseCors();
 
 app.MapGet("/", () => "Hello World!");
 
-app.MapGet("/api/issues", async (IIssueRepository repository) => await repository.GetAllAsync());
+// app.MapGet("/api/issues", async (IIssueRepository repository) => await repository.GetAllAsync());
+
+app.MapGet("/api/issues", async (IIssueRepository repository, [AsParameters] IssueParameters parameters) => await repository.GetAllAsync(parameters));
+
 app.MapGet("/api/issues/{id:int}", async (IIssueRepository repository, int id) => await repository.GetById(id));
 
 app.MapGet("/api/users", async (IUserRepository repository) => await repository.GetAllAsync());
