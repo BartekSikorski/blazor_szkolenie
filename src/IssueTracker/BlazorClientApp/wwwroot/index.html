@@ -27,6 +27,14 @@
         function JSToCSCall(text) {
             DotNet.invokeMethodAsync("BlazorClientApp", "JSToCSCall", text);
         }
+
+
+    </script>
+
+    <script>
+        window.sayHello1 = (dotNetHelper) => {
+            return dotNetHelper.invokeMethodAsync('GetHelloMessage');
+        };
     </script>
 </body>
 

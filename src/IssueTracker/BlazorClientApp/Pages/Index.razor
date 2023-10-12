@@ -10,16 +10,23 @@
 <button @onclick="ShowUser" class="waves-effect waves-light btn">Show user</button>
 <button @onclick="ShowConfirm" class="waves-effect waves-light btn">Show confirm</button>
 <button @onclick="ShowPrompt" class="waves-effect waves-light btn">Show prompt</button>
+<button @onclick="ShowEval" class="waves-effect waves-light btn">Show eval</button>
+<button @onclick="TriggerDotNetInstanceMethod" class="waves-effect waves-light btn">Show Hello Message</button>
 
 
 @code {
+    private string name = "John";
     private static string content;
 
-    private static Index index;
+    // private static Index index;
+
+    DotNetObjectReference<Index> indexReference { get; set; }
 
     protected override void OnInitialized()
     {
-        index = this;
+        // index = this;
+
+        indexReference = DotNetObjectReference.Create(this);
     }
 
 
@@ -53,17 +60,30 @@
         await module.InvokeVoidAsync("showPrompt", "What's your name?");
 
     }
-   
-  
 
+
+    private async Task ShowEval()
+    {
+        var scriptToEval = "info = function(text){alert(text);}";
+        await JS.InvokeVoidAsync("eval", scriptToEval);
+        await JS.InvokeVoidAsync("info", "Blazor");
+    }
 
     // js console: DotNet.invokeMethodAsync("BlazorClientApp", "JSToCSCall", "Hello World!")
     [JSInvokable]
     public static void JSToCSCall(string text)
     {
         content = text;
-        index.StateHasChanged();
+        // index.StateHasChanged();
     }
+
+    public async Task TriggerDotNetInstanceMethod()
+    {
+        var result = await JS.InvokeAsync<string>("sayHello1", indexReference);
+    }
+
+    [JSInvokable]
+    public string GetHelloMessage() => $"Hello, {name}!";
 
 
     
