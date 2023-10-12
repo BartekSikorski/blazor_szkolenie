@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.SignalR.Client;
 using Fluxor;
+using Bogus;
+using Domain.Models;
+using Infrastructure.Fakers;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -24,7 +27,11 @@ builder.Services.AddSingleton<HubConnection>(_ => new HubConnectionBuilder()
 // PM> Install-Package Fluxor.Blazor.Web.ReduxDevTools
 builder.Services.AddFluxor(options => options.ScanAssemblies(typeof(Program).Assembly).UseReduxDevTools());
 
+builder.Services.AddSingleton<Faker<User>, UserFaker>();
 
+// Blazorators: Blazor C# Source Generators
+// https://github.com/IEvangelist/blazorators
 
+// https://helion.pl/ksiazki/poznaj-blazor-buduj-jednostronicowe-aplikacje-przy-pomocy-webassembly-i-c-david-pine,e_37h0.htm#format/e
 
 await builder.Build().RunAsync();

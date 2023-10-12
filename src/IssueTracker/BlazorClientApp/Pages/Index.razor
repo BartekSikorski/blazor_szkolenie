@@ -1,6 +1,62 @@
 ﻿@page "/"
+@using Bogus
+@inject IJSRuntime JS
+@inject Faker<User> userFaker
+@implements IDisposable
 
-<h1>Hello, world!</h1>
+<h1>@content</h1>
 
+<button @onclick="ShowAlert" class="waves-effect waves-light btn">Show alert</button>
+<button @onclick="ShowUser" class="waves-effect waves-light btn">Show user</button>
+<button @onclick="ShowConfirm" class="waves-effect waves-light btn">Show confirm</button>
+
+
+
+@code {
+    private static string content;
+
+    private static Index index;
+
+    protected override void OnInitialized()
+    {
+        index = this;
+    }
+
+
+    public void Dispose()
+    {
+        content = string.Empty;
+    }
+
+
+    private async Task ShowAlert()
+    {
+        await JS.InvokeVoidAsync("alert", "Hello World!");
+    }
+
+    private async Task ShowUser()
+    {
+        var user = userFaker.Generate();
+
+        await JS.InvokeVoidAsync("console.log", "Hello World!", user);
+    }
+
+    private async Task ShowConfirm()
+    {        
+        var result = await JS.InvokeAsync<bool>("confirm", "Are you sure?");
+    }
+
+
+    // js console: DotNet.invokeMethodAsync("BlazorClientApp", "JSToCSCall", "Hello World!")
+    [JSInvokable]
+    public static void JSToCSCall(string text)
+    {
+        content = text;
+        index.StateHasChanged();
+    }
+
+
+    
+}
 
 
