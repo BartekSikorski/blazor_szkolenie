@@ -7,16 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="SettingsModule.dll" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="SettingsModule.dll">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
 		<PackageReference Include="Bogus" Version="34.0.2" />
 		<PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
