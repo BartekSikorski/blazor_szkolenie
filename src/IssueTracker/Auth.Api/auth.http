@@ -1,0 +1,22 @@
+@hostname = localhost
+@port = 7270
+@host = {{hostname}}:{{port}}
+
+###
+POST https://{{host}}/api/token/create
+Content-Type: application/json
+
+{
+    "username":"john",
+    "password":"123"
+}
+
+###
+
+POST https://{{host}}/api/token/create
+Content-Type: application/json
+
+{
+    "username":"john",
+    "password":"123!"
+}
