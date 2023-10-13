@@ -31,6 +31,7 @@ builder.Services.AddSingleton<IEnumerable<UserIdentity>>(sp =>
 });
 
 
+builder.Services.Configure<JwtTokenServiceOptions>(builder.Configuration.GetSection("JWTTokens"));
 
 var app = builder.Build();
 
@@ -54,5 +55,10 @@ app.MapPost("/api/token/create", (LoginModel model,
 
 
 });
+
+
+string secretKey = app.Configuration["JWTTokens:SecretKey"];
+
+string googleSecretKey = app.Configuration["GoogleMapsKey"];
 
 app.Run();

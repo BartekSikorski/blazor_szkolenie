@@ -8,6 +8,9 @@ using Bogus;
 using Domain.Models;
 using Infrastructure.Fakers;
 using Microsoft.AspNetCore.Components.WebAssembly.Services;
+using Microsoft.AspNetCore.Components.Authorization;
+using BlazorClientApp.Authentication;
+using Blazored.LocalStorage;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -18,6 +21,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 // PM> Install-Package Microsoft.Extensions.Http
 builder.Services.AddHttpClient<IssueApiService>(sp => sp.BaseAddress = new Uri("https://localhost:7228"));
 builder.Services.AddHttpClient<UserApiService>(sp => sp.BaseAddress = new Uri("https://localhost:7228"));
+builder.Services.AddHttpClient<AuthApiService>(sp => sp.BaseAddress = new Uri("https://localhost:7270"));
 
 builder.Services.AddSingleton<HubConnection>(_ => new HubConnectionBuilder()
     .WithUrl("https://localhost:7228/signalr/users")
@@ -37,5 +41,10 @@ builder.Services.AddSingleton<Faker<User>, UserFaker>();
 
 
 builder.Services.AddScoped<LazyAssemblyLoader>();
+
+
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();

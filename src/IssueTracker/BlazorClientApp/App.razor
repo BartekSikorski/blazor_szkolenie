@@ -1,23 +1,27 @@
 ﻿@using System.Reflection;
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Services;
 @inject LazyAssemblyLoader AssemblyLoader
 
 <Fluxor.Blazor.Web.StoreInitializer />
 
-<Router AppAssembly="@typeof(App).Assembly"
-        AdditionalAssemblies="_lazyLoadedAssemblies"
-        OnNavigateAsync="OnNavigateAsync">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MyLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+@* PM> Install-Package Microsoft.AspNetCore.Components.Authorization *@
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly"
+            AdditionalAssemblies="_lazyLoadedAssemblies"
+            OnNavigateAsync="OnNavigateAsync">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MyLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <p role="alert">Sorry, there's nothing at this address.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
 
 @code {
     private List<Assembly> _lazyLoadedAssemblies = new();
@@ -26,7 +30,7 @@
     {
         if (context.Path == "settings")
         {
-            var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "SettingsModule.dll" } );
+            var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "SettingsModule.dll" });
 
             _lazyLoadedAssemblies.AddRange(assemblies);
         }
