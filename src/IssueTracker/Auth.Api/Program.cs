@@ -17,9 +17,9 @@ builder.Services.AddSingleton<IEnumerable<UserIdentity>>(sp =>
 
     var userIdentities = new List<UserIdentity>()
     {
-        new UserIdentity { Username = "john", HashedPassword = "123", Email = "john@domain.com"},
-        new UserIdentity { Username = "bob", HashedPassword = "123", Email = "bob@domain.com", Role = "administrator"},
-        new UserIdentity { Username = "kate", HashedPassword = "123", Email = "kate@domain.com"}
+        new UserIdentity { Username = "john", HashedPassword = "123", Email = "john@domain.com", Birthday = DateTime.Today.AddYears(-19)},
+        new UserIdentity { Username = "bob", HashedPassword = "123", Email = "bob@domain.com", Role = "administrator", Birthday = DateTime.Today.AddYears(-17) },
+        new UserIdentity { Username = "kate", HashedPassword = "123", Email = "kate@domain.com", Role = "developer" }
     };
 
     foreach (var userIdentity in userIdentities)
@@ -71,7 +71,7 @@ app.MapPost("/api/token/create", (LoginModel model,
         return Results.Ok(token);
     }
 
-    return Results.Problem( "Invalid username or password", title:"Authorization failed");
+    return Results.Problem("Invalid username or password", title: "Authorization failed");
 
 });
 

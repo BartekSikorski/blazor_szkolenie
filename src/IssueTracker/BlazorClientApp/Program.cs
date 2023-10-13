@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using BlazorClientApp.Authentication;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -44,7 +45,10 @@ builder.Services.AddSingleton<Faker<User>, UserFaker>();
 builder.Services.AddScoped<LazyAssemblyLoader>();
 
 
-builder.Services.AddAuthorizationCore();
+builder.Services.AddAuthorizationCore(options =>
+{
+    options.AddPolicy("IsAdult", Policies.IsAdultPolicy());
+});
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 
 builder.Services.AddScoped<IAuthentication>(sp=>sp.GetRequiredService<CustomAuthenticationStateProvider>());
@@ -52,5 +56,8 @@ builder.Services.AddScoped<IAuthentication>(sp=>sp.GetRequiredService<CustomAuth
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
 
 builder.Services.AddBlazoredLocalStorage();
+
+builder.Services.AddScoped<IAuthorizationHandler, MinimumAgeAuthorizationHandler>();    
+
 
 await builder.Build().RunAsync();

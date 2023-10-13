@@ -1,8 +1,12 @@
 ﻿@page "/Dashboard"
 @using Microsoft.AspNetCore.Authorization;
-@attribute [Authorize]
+@attribute [Authorize(Policy = "IsAdult")]
+
+
+
 
 @* note: W App.razor zamienić RouteView na AuthorizeRouteView! *@
+
 
 <div class="row">
     <DashoardItem CardColour="orange" Value="23">

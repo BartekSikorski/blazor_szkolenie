@@ -61,6 +61,9 @@ public class JwtTokenService : ITokenService
         if (userIdentity.Role is not null)
             claims.Add(new Claim(ClaimTypes.Role, userIdentity.Role));
 
+        if (userIdentity.Birthday.HasValue)
+            claims.Add(new Claim(ClaimTypes.DateOfBirth, userIdentity.Birthday.Value.ToShortDateString()));
+
         return claims;
     }
 }
