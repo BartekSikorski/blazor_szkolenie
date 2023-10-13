@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<IPasswordHasher<UserIdentity>, PasswordHasher<UserIdentity>>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<ITokenService, FakeTokenService>();
+builder.Services.AddScoped<ITokenService, JwtTokenService>();
 builder.Services.AddSingleton<IUserIdentityRepository, FakeUserIdentityRepository>();
 
 builder.Services.AddSingleton<IEnumerable<UserIdentity>>(sp =>
@@ -17,9 +17,9 @@ builder.Services.AddSingleton<IEnumerable<UserIdentity>>(sp =>
 
     var userIdentities = new List<UserIdentity>()
     {
-        new UserIdentity { Username = "john", HashedPassword = "123"},
-        new UserIdentity { Username = "bob", HashedPassword = "123"},
-        new UserIdentity { Username = "kate", HashedPassword = "123"}
+        new UserIdentity { Username = "john", HashedPassword = "123", Email = "john@domain.com"},
+        new UserIdentity { Username = "bob", HashedPassword = "123", Email = "bob@domain.com"},
+        new UserIdentity { Username = "kate", HashedPassword = "123", Email = "kate@domain.com"}
     };
 
     foreach (var userIdentity in userIdentities)
