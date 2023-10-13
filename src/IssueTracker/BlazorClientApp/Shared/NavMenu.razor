@@ -8,24 +8,38 @@
 <nav>
     <ul>
         <li>
-            <a href="/dashboard">Dashboard</a>
+            <a href="/">Home</a>
         </li>
 
-        <li>
-            <a href="/users">Users</a>
-        </li>
+        <AuthorizeView>
 
-        <li>
-            <a href="/issues">Issues</a>
-        </li>
+            <Authorized>
+                <li>
+                    <a href="/dashboard">Dashboard</a>
+                </li>
 
-        <li>
-            <a href="/counter">Counter (@CounterState.Value.CurrentCount)</a>
-        </li>
+                <li>
+                    <a href="/users">Users</a>
+                </li>
 
-        <li>
-            <a href="/settings">Settings</a>
-        </li>
+                <li>
+                    <a href="/issues">Issues</a>
+                </li>
+
+                <li>
+                    <a href="/counter">Counter (@CounterState.Value.CurrentCount)</a>
+                </li>
+
+                <li>
+                    <a href="/settings">Settings</a>
+                </li>
+            </Authorized>
+
+        </AuthorizeView>
 
     </ul>
+
+
+    <UserIdentity />
+
 </nav>

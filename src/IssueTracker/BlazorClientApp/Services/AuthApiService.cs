@@ -13,6 +13,8 @@ public class AuthApiService
     {
         var response = await client.PostAsJsonAsync("api/token/create", model);
 
+        response.EnsureSuccessStatusCode();
+
         var token = await response.Content.ReadFromJsonAsync<string>();
 
         return token;

@@ -11,7 +11,11 @@
             AdditionalAssemblies="_lazyLoadedAssemblies"
             OnNavigateAsync="OnNavigateAsync">
         <Found Context="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MyLayout)" />
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MyLayout)" >
+                <NotAuthorized>
+                    <LoginRedirect Uri="login"/>
+                </NotAuthorized>
+            </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>

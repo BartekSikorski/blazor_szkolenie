@@ -7,8 +7,14 @@ using System.Security.Claims;
 
 namespace BlazorClientApp.Authentication;
 
+public interface IAuthentication
+{
+    Task LoginAsync(LoginModel model);
+    Task LogoutAsync();
+}
+
 // PM> Install-Package Blazored.LocalStorage
-public class CustomAuthenticationStateProvider : AuthenticationStateProvider
+public class CustomAuthenticationStateProvider : AuthenticationStateProvider, IAuthentication
 {
     private readonly AuthApiService Api;
     private readonly ILocalStorageService localStorage;
@@ -45,10 +51,17 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public async Task LoginAsync(LoginModel model)
     {
-        var token = await Api.Create(model);
+        try
+        {
+            var token = await Api.Create(model);
 
-        await localStorage.SetItemAsStringAsync(AccessTokenKey, token);
-        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            await localStorage.SetItemAsStringAsync(AccessTokenKey, token);
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        }
+        catch(HttpRequestException e)
+        {
+
+        }
     }
 
     public async Task LogoutAsync()
@@ -57,3 +70,4 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
 }
+

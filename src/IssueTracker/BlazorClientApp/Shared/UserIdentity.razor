@@ -1,0 +1,30 @@
+﻿@using BlazorClientApp.Authentication;
+@inject IAuthentication Authentication
+
+<AuthorizeView>
+    <Authorized>
+
+        <div>Hello @context.User.Identity.Name <a href="" @onclick="LogoutAsync">Log out</a></div>
+        
+    </Authorized>
+
+    <Authorizing>
+        <ProgressBar />
+    </Authorizing>
+
+    <NotAuthorized>
+        <NavLink href="/login">Login</NavLink>
+    </NotAuthorized>
+
+</AuthorizeView>
+
+
+@code {
+
+
+    private async Task LogoutAsync()
+    {
+        await Authentication.LogoutAsync();
+    }
+
+}

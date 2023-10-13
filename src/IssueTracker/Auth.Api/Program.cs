@@ -18,7 +18,7 @@ builder.Services.AddSingleton<IEnumerable<UserIdentity>>(sp =>
     var userIdentities = new List<UserIdentity>()
     {
         new UserIdentity { Username = "john", HashedPassword = "123", Email = "john@domain.com"},
-        new UserIdentity { Username = "bob", HashedPassword = "123", Email = "bob@domain.com"},
+        new UserIdentity { Username = "bob", HashedPassword = "123", Email = "bob@domain.com", Role = "administrator"},
         new UserIdentity { Username = "kate", HashedPassword = "123", Email = "kate@domain.com"}
     };
 
@@ -31,9 +31,29 @@ builder.Services.AddSingleton<IEnumerable<UserIdentity>>(sp =>
 });
 
 
+if (builder.Environment.IsDevelopment())
+{
+    // Rejestracja reguly CORS
+    builder.Services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(policy =>
+        {
+            // policy.AllowAnyOrigin();
+            policy.WithOrigins("https://localhost:7085", "http://localhost:5281");
+            policy.WithMethods("GET", "POST", "PUT");
+            policy.AllowAnyHeader();
+        });
+    });
+}
+
 builder.Services.Configure<JwtTokenServiceOptions>(builder.Configuration.GetSection("JWTTokens"));
 
 var app = builder.Build();
+
+if (builder.Environment.IsDevelopment())
+{
+    app.UseCors();
+}
 
 app.MapGet("/", () => "Hello Auth Api!");
 
@@ -51,8 +71,7 @@ app.MapPost("/api/token/create", (LoginModel model,
         return Results.Ok(token);
     }
 
-    return Results.BadRequest(new { messsage = "Invalid username or password" });
-
+    return Results.Problem( "Invalid username or password", title:"Authorization failed");
 
 });
 

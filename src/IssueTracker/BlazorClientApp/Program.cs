@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using BlazorClientApp.Authentication;
 using Blazored.LocalStorage;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -44,7 +45,12 @@ builder.Services.AddScoped<LazyAssemblyLoader>();
 
 
 builder.Services.AddAuthorizationCore();
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+
+builder.Services.AddScoped<IAuthentication>(sp=>sp.GetRequiredService<CustomAuthenticationStateProvider>());
+
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
+
 builder.Services.AddBlazoredLocalStorage();
 
 await builder.Build().RunAsync();

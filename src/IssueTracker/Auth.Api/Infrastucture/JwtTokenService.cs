@@ -57,6 +57,10 @@ public class JwtTokenService : ITokenService
         var claims = new List<Claim>();
         claims.Add(new Claim(ClaimTypes.Name, userIdentity.Username));
         claims.Add(new Claim(ClaimTypes.Email, userIdentity.Email));
+        
+        if (userIdentity.Role is not null)
+            claims.Add(new Claim(ClaimTypes.Role, userIdentity.Role));
+
         return claims;
     }
 }

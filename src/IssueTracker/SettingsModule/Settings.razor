@@ -1,4 +1,6 @@
 ﻿@page "/settings"
+@using Microsoft.AspNetCore.Authorization;
+@attribute [Authorize(Roles="administrator")]
 
 <PageTitle>@title</PageTitle>
 
