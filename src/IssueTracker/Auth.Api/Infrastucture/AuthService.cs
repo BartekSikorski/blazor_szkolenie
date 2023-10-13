@@ -20,7 +20,6 @@ public class AuthService : IAuthService
     {
         identity = userIdentityRepository.GetByUsername(username);
 
-        // TODO: porównywać zahaszowane hasło
         return identity != null && passwordHasher.VerifyHashedPassword(identity, identity.HashedPassword, password) != PasswordVerificationResult.Failed;
 
         
