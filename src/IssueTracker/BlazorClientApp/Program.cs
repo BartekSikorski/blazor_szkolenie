@@ -13,6 +13,7 @@ using BlazorClientApp.Authentication;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -56,6 +57,8 @@ builder.Services.AddScoped<IAuthentication>(sp=>sp.GetRequiredService<CustomAuth
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
 
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddMudServices();
+
 
 builder.Services.AddScoped<IAuthorizationHandler, MinimumAgeAuthorizationHandler>();    
 

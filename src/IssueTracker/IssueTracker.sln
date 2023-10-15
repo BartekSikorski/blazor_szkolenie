@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SettingsModule", "SettingsModule\SettingsModule.csproj", "{7B8CEFA9-5398-4E63-A705-DDF004217F58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Api", "Auth.Api\Auth.Api.csproj", "{C3EC1E45-A2A3-464E-B054-4A712B0788DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth.Api", "Auth.Api\Auth.Api.csproj", "{C3EC1E45-A2A3-464E-B054-4A712B0788DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

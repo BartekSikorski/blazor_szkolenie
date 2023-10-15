@@ -8,7 +8,9 @@
     <link href="css/materialize.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="BlazorClientApp.styles.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -21,21 +23,7 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="js/materialize.min.js"></script>
-    <script src="_content/Fluxor.Blazor.Web/scripts/index.js"></script>
-
-    <script>
-        function JSToCSCall(text) {
-            DotNet.invokeMethodAsync("BlazorClientApp", "JSToCSCall", text);
-        }
-
-
-    </script>
-
-    <script>
-        window.sayHello1 = (dotNetHelper) => {
-            return dotNetHelper.invokeMethodAsync('GetHelloMessage');
-        };
-    </script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 </body>
 
 </html>

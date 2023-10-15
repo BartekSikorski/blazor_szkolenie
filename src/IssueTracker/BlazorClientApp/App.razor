@@ -11,7 +11,7 @@
             AdditionalAssemblies="_lazyLoadedAssemblies"
             OnNavigateAsync="OnNavigateAsync">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MyLayout)" >
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MudBlazorLayout)" >
                 <NotAuthorized>
                     <LoginRedirect Uri="login"/>
                 </NotAuthorized>
